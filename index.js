@@ -24,7 +24,7 @@ const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
-  port: process.env.PORT || 8080,
+  port: process.env.DB_PORT,
 })
 
 connection.connect(err => {
@@ -107,6 +107,6 @@ app.get('/grade/add', (req, res) => {
   })
 })
 
-app.listen(4000, () => {
+app.listen(process.env.PORT || 8080, () => {
     console.log(`sample listening on port 4000`)
 })
