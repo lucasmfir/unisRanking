@@ -10,6 +10,7 @@ const SELECT_ALL_COURSES = "SELECT * FROM courses;"
 const SELECT_ALL_GRADES = `SELECT u.uni_name,
                                   c.course_name,
                                   grade,
+                                  g.grade_id,
                                   (SELECT AVG(g2.grade) media FROM grade as g2 JOIN universities u2 ON g2.uni_id = u2.uni_id WHERE u2.uni_id = u.uni_id) average
                             FROM grade as g
                               JOIN universities as u
@@ -34,21 +35,10 @@ connection.connect(err => {
 })
 
 app.use(function (req, res, next) {
-
-  // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', '*');
-
-  // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-  // Request headers you wish to allow
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
   res.setHeader('Access-Control-Allow-Credentials', true);
-
-  // Pass to next layer of middleware
   next();
 });
 
@@ -109,7 +99,6 @@ app.get('/courses/add', (req, res) => {
 app.get('/grade/add', (req, res) => {
   const { uni_id, course_id, grade } = req.query
   const INSERT_GRADE = `INSERT INTO grade (uni_id, course_id, grade ) VALUES (${uni_id}, ${course_id}, ${grade});`
-  console.log(INSERT_GRADE)
 
   connection.query(INSERT_GRADE, (err, results) => {
     if(err)
@@ -120,6 +109,20 @@ app.get('/grade/add', (req, res) => {
   })
 })
 
+app.get('/grade/delete', (req, res) => {
+  const { grade_id } = req.query
+  const DELETE_GRADE = `DELETE FROM grade WHERE grade_id = ${grade_id};`
+
+  connection.query(DELETE_GRADE, (err, results) => {
+    if(err)
+      res.send(err)
+    else{
+      return res.send("Nota removida com sucesso!")
+    }
+  })
+})
+
+
 app.listen(process.env.PORT || 8080, () => {
-    console.log(`sample listening on port 4000`)
+    console.log(`listening......`)
 })
