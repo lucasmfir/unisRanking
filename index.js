@@ -18,7 +18,6 @@ const SELECT_ALL_GRADES = `SELECT u.uni_name,
                                 ON c.course_id = g.course_id
                                 ORDER BY average DESC;`
 
-// app.use(cors())
 
 const connection = mysql.createConnection({
   user: process.env.DB_USER,
