@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const mysql = require('mysql')
+require('dotenv').config()
 
 const app = express()
 
@@ -19,11 +20,11 @@ const SELECT_ALL_GRADES = `SELECT u.uni_name,
 app.use(cors())
 
 const connection = mysql.createConnection({
-  user: 'root',
-  host: 'localhost',
-  database: 'unis_rank',
-  password: '0101Lucas',
-  port: 3306,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 })
 
 connection.connect(err => {
