@@ -15,9 +15,10 @@ const SELECT_ALL_GRADES = `SELECT u.uni_name,
                               JOIN universities as u
                                 ON u.uni_id = g.uni_id
                               JOIN courses as c
-                                ON c.course_id = g.course_id;`
+                                ON c.course_id = g.course_id
+                                ORDER BY average DESC;`
 
-app.use(cors())
+// app.use(cors())
 
 const connection = mysql.createConnection({
   user: process.env.DB_USER,
